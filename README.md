@@ -13,7 +13,7 @@ A video classifier that identifies a vehicle by the blinker flash pattern it emi
 
 29 classes × ~35 videos per class (1014 videos total), 50 epochs, ~15 minutes on RTX 5060.
 
-Trained across three CARLA weather conditions — **ClearNight**, **CloudySunset**, and **MidRainyNight**. Adding the harder rain/sunset weather raised test accuracy from 94.25% to 98.62% over the earlier ClearNight-only model.
+Trained across three CARLA weather conditions — **ClearNight**, **CloudySunset**, and **MidRainyNight**.
 
 ![Training curves](results/accuracy_curve.png)
 
@@ -70,12 +70,6 @@ The dataset has these properties:
 - Sparse signal: only ~2 of 4 expected blinker pulses are caught per video
 - Discriminative info = **temporal pattern + left/right** of the bright blinker patch
 - Small training set (~25 samples per class after train/val/test split)
-
-This rules out a naive 3D-CNN, which we verified empirically (0% test accuracy):
-
-- 5 levels of `MaxPool3D(2,2,2)` compress 56 temporal frames to 1 — kills timing info
-- 8×8 final spatial feature map loses fine-grained left/right localization
-- 8–25M parameters overfit hard with so few samples
 
 ### BlinkerNet design
 
