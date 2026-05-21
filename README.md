@@ -67,7 +67,6 @@ python src/preprocess.py --input <path_to_raw_videos> --output data/dataset_carl
 The dataset has these properties:
 
 - Short videos (~56 frames at 42 fps simulation rate)
-- Sparse signal: only ~2 of 4 expected blinker pulses are caught per video
 - Discriminative info = **temporal pattern + left/right** of the bright blinker patch
 - Small training set (~25 samples per class after train/val/test split)
 
