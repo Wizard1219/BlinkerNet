@@ -7,11 +7,13 @@ A video classifier that identifies a vehicle by the blinker flash pattern it emi
 | Metric | Value |
 |---|---|
 | Train accuracy | 100% |
-| Val accuracy (best) | 98.85% |
-| **Test accuracy** | **94.25%** |
-| Macro F1 | 0.94 |
+| Val accuracy (best) | 97.24% |
+| **Test accuracy** | **98.62%** |
+| Macro F1 | 0.99 |
 
-29 classes × ~20 videos per class, 50 epochs, ~8 minutes on RTX 5060.
+29 classes × ~35 videos per class (1014 videos total), 50 epochs, ~15 minutes on RTX 5060.
+
+Trained across three CARLA weather conditions — **ClearNight**, **CloudySunset**, and **MidRainyNight**. Adding the harder rain/sunset weather raised test accuracy from 94.25% to 98.62% over the earlier ClearNight-only model.
 
 ![Training curves](results/accuracy_curve.png)
 
@@ -67,7 +69,7 @@ The dataset has these properties:
 - Short videos (~56 frames at 42 fps simulation rate)
 - Sparse signal: only ~2 of 4 expected blinker pulses are caught per video
 - Discriminative info = **temporal pattern + left/right** of the bright blinker patch
-- Small training set (~14 samples per class after train/val/test split)
+- Small training set (~25 samples per class after train/val/test split)
 
 This rules out a naive 3D-CNN, which we verified empirically (0% test accuracy):
 
@@ -95,6 +97,6 @@ This rules out a naive 3D-CNN, which we verified empirically (0% test accuracy):
 
 ## Known limitations
 
-- Trained only on **ClearNight** weather in CARLA. Other weather conditions are not in the training set and the model will likely fail on them
+- Trained on three CARLA weather conditions — **ClearNight**, **CloudySunset**, and **MidRainyNight**. Other weather (e.g. heavy daytime rain, fog) is not in the training set and the model may fail on it
 - Blinker visibility depends heavily on vehicle distance from the camera. Some pulses are missed when the vehicle is far. The attention head learns to handle this, but extreme cases may still misclassify
 - Only `vehicle.carlamotors.firetruck` blinkers behave correctly in CARLA — emergency vehicles like police and ambulance have built-in red/blue strobes that override the user-specified blinker sequence

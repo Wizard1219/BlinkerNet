@@ -26,7 +26,7 @@ from utils.blinker_net import BlinkerNet
 from utils.utils import print_log
 from utils.video_dataset import VideoDataset
 
-DATA_PATH = "data/dataset_carla"
+DATA_PATH = os.environ.get("BLINKER_DATA", "data/dataset_carla")
 MAX_LENGTH = 64
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
